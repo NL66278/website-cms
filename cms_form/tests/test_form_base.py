@@ -258,11 +258,14 @@ class TestFormBase(FormTestCase):
     def test_load_defaults(self):
         # create mode, no main_object
         main_object = None
+        partner_model = self.env['res.partner']
+        model_defaults = partner_model.default_get(
+            fields_list=['country_id'])
         form = self.get_form('cms.form.res.partner', main_object=main_object)
         defaults = form.form_load_defaults()
         expected = {
             'name': None,
-            'country_id': None,
+            'country_id': model_defaults['country_id'],
             'custom': 'oh yeah!'
         }
         for k, v in expected.items():
